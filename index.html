@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>System — Client Onboarding</title>
+  <title>Stewrd — Client Onboarding</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -405,7 +405,7 @@
     /* ── Tier selector ── */
     .tier-cards {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 10px;
     }
 
@@ -495,6 +495,125 @@
       border-radius: 50%;
       background: white;
     }
+
+    /* ── Logo upload ── */
+    .logo-upload-field { grid-column: 1 / -1; }
+
+    .label-hint {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.25);
+      padding: 2px 6px;
+      border-radius: 2px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    .logo-dropzone {
+      border: 1.5px dashed var(--border);
+      border-radius: 3px;
+      background: var(--white);
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-dropzone:hover,
+    .logo-dropzone.drag-over {
+      border-color: var(--mid);
+      background: rgba(37,99,168,0.03);
+      box-shadow: 0 0 0 3px rgba(37,99,168,0.08);
+    }
+
+    .logo-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 20px;
+      gap: 6px;
+    }
+
+    .logo-placeholder svg {
+      width: 32px;
+      height: 32px;
+      stroke: var(--border);
+      margin-bottom: 4px;
+      transition: stroke 0.2s;
+    }
+
+    .logo-dropzone:hover .logo-placeholder svg,
+    .logo-dropzone.drag-over .logo-placeholder svg {
+      stroke: var(--mid);
+    }
+
+    .drop-main {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .drop-sub {
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--sub);
+    }
+
+    .logo-preview-wrap {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 16px;
+    }
+
+    .logo-preview-wrap img {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      background: #fff;
+      padding: 6px;
+      flex-shrink: 0;
+    }
+
+    .logo-preview-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .logo-filename {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text);
+      word-break: break-all;
+    }
+
+    .logo-remove {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: none;
+      border: 1px solid #f0b8b8;
+      color: #9a2a2a;
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 2px;
+      cursor: pointer;
+      width: fit-content;
+      transition: background 0.15s;
+    }
+
+    .logo-remove:hover { background: #fdf2f2; }
 
     /* ── Submit ── */
     .submit-wrap {
@@ -591,7 +710,7 @@
       .right-panel { padding: 40px 24px; }
       .field-grid { grid-template-columns: 1fr; }
       .field-grid .full { grid-column: 1; }
-      .tier-cards { grid-template-columns: 1fr; }
+      .tier-cards { grid-template-columns: repeat(3, 1fr); }
     }
   </style>
 </head>
@@ -605,7 +724,7 @@
           <svg viewBox="0 0 24 24"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z"/><path d="M9 12l2 2 4-4"/></svg>
         </div>
         <div class="logo-wordmark">
-          <span class="logo-name">Company</span>
+          <span class="logo-name">Stewrd</span>
           <span class="logo-sub">Financial Stewardship</span>
         </div>
       </div>
@@ -615,7 +734,7 @@
       </h2>
 
       <p class="panel-body">
-        System simplifies accounting with tiered involvement levels — delivering the right processes, controls, and expert oversight based on your needs. You only pay for the support you actually require.
+        Stewrd simplifies accounting with tiered involvement levels — delivering the right processes, controls, and expert oversight based on your needs. You only pay for the support you actually require.
       </p>
 
       <div class="tier-list">
@@ -623,28 +742,42 @@
           <div class="tier-dot"></div>
           <div class="tier-info">
             <div class="tier-name">Lite</div>
-            <div class="tier-desc">Essential controls &amp; compliance for lean operations.</div>
+            <div class="tier-desc">Entry-level bookkeeping &amp; basic compliance.</div>
           </div>
         </div>
         <div class="tier-item">
           <div class="tier-dot"></div>
           <div class="tier-info">
-            <div class="tier-name">Pro</div>
-            <div class="tier-desc">Full oversight with dedicated expert involvement.</div>
+            <div class="tier-name">Snap</div>
+            <div class="tier-desc">Essential reporting with periodic expert review.</div>
           </div>
         </div>
         <div class="tier-item">
           <div class="tier-dot"></div>
           <div class="tier-info">
-            <div class="tier-name">Enterprise</div>
-            <div class="tier-desc">Custom processes, controls, and CFO-level stewardship.</div>
+            <div class="tier-name">Base</div>
+            <div class="tier-desc">Core processes, controls, and monthly oversight.</div>
+          </div>
+        </div>
+        <div class="tier-item">
+          <div class="tier-dot"></div>
+          <div class="tier-info">
+            <div class="tier-name">Guard</div>
+            <div class="tier-desc">Full compliance management with dedicated steward.</div>
+          </div>
+        </div>
+        <div class="tier-item">
+          <div class="tier-dot"></div>
+          <div class="tier-info">
+            <div class="tier-name">Prime</div>
+            <div class="tier-desc">CFO-level oversight &amp; custom financial stewardship.</div>
           </div>
         </div>
       </div>
     </div>
 
     <div class="panel-bottom">
-      <p>© 2025 Company. All rights reserved.</p>
+      <p>© 2025 Stewrd. All rights reserved.</p>
     </div>
   </aside>
 
@@ -658,7 +791,7 @@
           Client Onboarding
         </div>
         <h2>Tell us about your<br>company &amp; representative.</h2>
-        <p>This information helps us configure your System account and assign the right accounting oversight for your organisation.</p>
+        <p>This information helps us configure your Stewrd account and assign the right accounting oversight for your organisation.</p>
       </div>
 
       <div id="stewrdForm">
@@ -716,9 +849,23 @@
               <label>Tax Identification No.</label>
               <input type="text" name="company_tin" placeholder="000-000-000-000" required>
             </div>
-            <div class="field">
-              <label>Logo Filename</label>
-              <input type="text" name="company_logo" placeholder="logo.png" required>
+            <div class="field logo-upload-field">
+              <label>Company Logo <span class="label-hint">PNG only</span></label>
+              <div class="logo-dropzone" id="logoDropzone" onclick="document.getElementById('logoFileInput').click()">
+                <input type="file" id="logoFileInput" name="company_logo_file" accept="image/png" style="display:none">
+                <div class="logo-placeholder" id="logoPlaceholder">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  <span class="drop-main">Click to upload PNG</span>
+                  <span class="drop-sub">or drag &amp; drop here</span>
+                </div>
+                <div class="logo-preview-wrap" id="logoPreviewWrap" style="display:none">
+                  <img id="logoPreviewImg" src="" alt="Logo preview">
+                  <div class="logo-preview-info">
+                    <span class="logo-filename" id="logoFilename"></span>
+                    <button type="button" class="logo-remove" id="logoRemove" onclick="removeLogo(event)">✕ Remove</button>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="field color-field">
               <label>Brand Colour</label>
@@ -743,29 +890,47 @@
 
           <div class="tier-cards">
             <div class="tier-card-opt">
-              <input type="radio" name="selected_tier" id="tier-lite" value="Lite">
+              <input type="radio" name="selected_tier" id="tier-lite" value="Lite" checked>
               <label for="tier-lite">
                 <span class="tc-name">Lite</span>
+                <span class="tc-tag">Entry</span>
+                <span class="tc-desc">Basic bookkeeping &amp; compliance essentials.</span>
+                <div class="tier-check"></div>
+              </label>
+            </div>
+            <div class="tier-card-opt">
+              <input type="radio" name="selected_tier" id="tier-snap" value="Snap">
+              <label for="tier-snap">
+                <span class="tc-name">Snap</span>
                 <span class="tc-tag">Starter</span>
-                <span class="tc-desc">Core processes &amp; compliance controls for lean teams.</span>
+                <span class="tc-desc">Essential reporting with periodic review.</span>
                 <div class="tier-check"></div>
               </label>
             </div>
             <div class="tier-card-opt">
-              <input type="radio" name="selected_tier" id="tier-pro" value="Pro" checked>
-              <label for="tier-pro">
-                <span class="tc-name">Pro</span>
-                <span class="tc-tag">Most Popular</span>
-                <span class="tc-desc">Full oversight with dedicated expert involvement.</span>
+              <input type="radio" name="selected_tier" id="tier-base" value="Base">
+              <label for="tier-base">
+                <span class="tc-name">Base</span>
+                <span class="tc-tag">Popular</span>
+                <span class="tc-desc">Core processes &amp; monthly oversight.</span>
                 <div class="tier-check"></div>
               </label>
             </div>
             <div class="tier-card-opt">
-              <input type="radio" name="selected_tier" id="tier-enterprise" value="Enterprise">
-              <label for="tier-enterprise">
-                <span class="tc-name">Enterprise</span>
-                <span class="tc-tag">Full Access</span>
-                <span class="tc-desc">Custom controls and CFO-level financial stewardship.</span>
+              <input type="radio" name="selected_tier" id="tier-guard" value="Guard">
+              <label for="tier-guard">
+                <span class="tc-name">Guard</span>
+                <span class="tc-tag">Full Cover</span>
+                <span class="tc-desc">Full compliance with a dedicated steward.</span>
+                <div class="tier-check"></div>
+              </label>
+            </div>
+            <div class="tier-card-opt">
+              <input type="radio" name="selected_tier" id="tier-prime" value="Prime">
+              <label for="tier-prime">
+                <span class="tc-name">Prime</span>
+                <span class="tc-tag">Top Tier</span>
+                <span class="tc-desc">CFO-level oversight &amp; custom stewardship.</span>
                 <div class="tier-check"></div>
               </label>
             </div>
@@ -774,7 +939,7 @@
 
         <!-- Submit -->
         <div class="submit-wrap">
-          <p class="submit-note">By submitting, you agree to allow the system to configure your account and assign the appropriate level of accounting oversight. All data is handled with full confidentiality.</p>
+          <p class="submit-note">By submitting, you agree to allow Stewrd to configure your account and assign the appropriate level of accounting oversight. All data is handled with full confidentiality.</p>
           <button class="submit-btn" id="submitBtn" type="button" onclick="submitForm()">
             Begin Onboarding →
           </button>
@@ -798,23 +963,90 @@
       hexLabel.textContent = picker.value.toUpperCase();
     });
 
+    // Logo upload
+    const dropzone    = document.getElementById('logoDropzone');
+    const fileInput   = document.getElementById('logoFileInput');
+    const placeholder = document.getElementById('logoPlaceholder');
+    const previewWrap = document.getElementById('logoPreviewWrap');
+    const previewImg  = document.getElementById('logoPreviewImg');
+    const filenameLbl = document.getElementById('logoFilename');
+    let logoBase64    = null;
+    let logoFileName  = null;
+
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files[0];
+      if (file) handleLogoFile(file);
+    });
+
+    dropzone.addEventListener('dragover', e => {
+      e.preventDefault();
+      dropzone.classList.add('drag-over');
+    });
+
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag-over'));
+
+    dropzone.addEventListener('drop', e => {
+      e.preventDefault();
+      dropzone.classList.remove('drag-over');
+      const file = e.dataTransfer.files[0];
+      if (file && file.type === 'image/png') {
+        handleLogoFile(file);
+      } else {
+        showMsg('Only PNG files are accepted for the company logo.', 'error');
+      }
+    });
+
+    function handleLogoFile(file) {
+      if (file.type !== 'image/png') {
+        showMsg('Please upload a PNG file for the company logo.', 'error');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = e => {
+        logoBase64   = e.target.result; // full data URL
+        logoFileName = file.name;
+        previewImg.src       = logoBase64;
+        filenameLbl.textContent = file.name;
+        placeholder.style.display  = 'none';
+        previewWrap.style.display  = 'flex';
+        dropzone.style.cursor      = 'default';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function removeLogo(e) {
+      e.stopPropagation();
+      logoBase64  = null;
+      logoFileName = null;
+      fileInput.value = '';
+      previewImg.src = '';
+      previewWrap.style.display  = 'none';
+      placeholder.style.display  = 'flex';
+      dropzone.style.cursor      = 'pointer';
+    }
+
     async function submitForm() {
       const form = document.getElementById('stewrdForm');
-      const btn = document.getElementById('submitBtn');
-      const msg = document.getElementById('statusMsg');
+      const btn  = document.getElementById('submitBtn');
 
-      // Collect data
+      // Collect text fields
       const data = {};
       form.querySelectorAll('[name]').forEach(el => {
         if (el.type === 'radio') {
           if (el.checked) data[el.name] = el.value;
-        } else {
+        } else if (el.type !== 'file') {
           data[el.name] = el.value;
         }
       });
 
+      // Attach logo
+      if (logoBase64) {
+        data.company_logo      = logoFileName;
+        data.company_logo_data = logoBase64;
+      }
+
       // Validate required text fields
-      const required = ['rep_name','rep_mobile','rep_email','rep_position','company_name','company_address','company_tin','company_logo'];
+      const required = ['rep_name','rep_mobile','rep_email','rep_position','company_name','company_address','company_tin'];
       for (const key of required) {
         if (!data[key] || !data[key].trim()) {
           showMsg('Please fill in all required fields before submitting.', 'error');
@@ -822,9 +1054,14 @@
         }
       }
 
+      if (!logoBase64) {
+        showMsg('Please upload your company logo (PNG) before submitting.', 'error');
+        return;
+      }
+
       btn.disabled = true;
       btn.textContent = 'Submitting…';
-      showMsg('Sending your details to System…', 'sending');
+      showMsg('Sending your details to Stewrd…', 'sending');
 
       try {
         const res = await fetch(webhookUrl, {
