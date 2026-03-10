@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System — Client Onboarding</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:      #0d1b2a;
+      --deep:     #0f2744;
+      --slate:    #1b3a5c;
+      --mid:      #2563a8;
+      --azure:    #3b82c4;
+      --mist:     #dbe8f5;
+      --frost:    #f0f5fb;
+      --white:    #fafcff;
+      --gold:     #c9a84c;
+      --gold-lt:  #e8d08a;
+      --text:     #1a2535;
+      --sub:      #4a6080;
+      --border:   #c5d6e8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      background: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      align-items: stretch;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* ── Left panel ── */
+    .left-panel {
+      width: 380px;
+      flex-shrink: 0;
+      background: linear-gradient(160deg, var(--deep) 0%, var(--slate) 60%, #163558 100%);
+      padding: 56px 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Geometric background lines */
+    .left-panel::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(
+          -35deg,
+          transparent,
+          transparent 60px,
+          rgba(255,255,255,0.025) 60px,
+          rgba(255,255,255,0.025) 61px
+        );
+      pointer-events: none;
+    }
+
+    /* Gold corner accent */
+    .left-panel::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 140px; height: 4px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+    }
+
+    .panel-top { position: relative; z-index: 1; }
+
+    .logo-mark {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 52px;
+    }
+
+    .logo-icon {
+      width: 42px;
+      height: 42px;
+      border: 1.5px solid var(--gold);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .logo-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1.5;
+    }
+
+    .logo-wordmark {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: 0.04em;
+      line-height: 1;
+    }
+
+    .logo-sub {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-top: 3px;
+    }
+
+    .panel-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 38px;
+      font-weight: 500;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+
+    .panel-headline em {
+      font-style: italic;
+      color: var(--gold-lt);
+    }
+
+    .panel-body {
+      font-size: 14px;
+      font-weight: 300;
+      color: rgba(219,232,245,0.75);
+      line-height: 1.75;
+      margin-bottom: 40px;
+    }
+
+    .tier-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .tier-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 3px;
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(4px);
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .tier-item:hover {
+      border-color: rgba(201,168,76,0.3);
+      background: rgba(201,168,76,0.04);
+    }
+
+    .tier-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+
+    .tier-info .tier-name {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .tier-info .tier-desc {
+      font-size: 12px;
+      font-weight: 300;
+      color: rgba(219,232,245,0.6);
+      margin-top: 2px;
+      line-height: 1.5;
+    }
+
+    .panel-bottom {
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .panel-bottom p {
+      font-size: 11px;
+      color: rgba(219,232,245,0.4);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Right panel ── */
+    .right-panel {
+      flex: 1;
+      background: var(--frost);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 60px 48px;
+      min-height: 100vh;
+    }
+
+    .form-container {
+      width: 100%;
+      max-width: 540px;
+    }
+
+    .form-heading {
+      margin-bottom: 44px;
+      animation: riseIn 0.5s ease both;
+    }
+
+    .step-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mid);
+      background: rgba(37,99,168,0.1);
+      border: 1px solid rgba(37,99,168,0.2);
+      padding: 4px 10px;
+      border-radius: 2px;
+      margin-bottom: 14px;
+    }
+
+    .form-heading h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 34px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .form-heading p {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--sub);
+      line-height: 1.65;
+    }
+
+    /* ── Section ── */
+    .section {
+      margin-bottom: 36px;
+      animation: riseIn 0.5s ease both;
+    }
+
+    .section:nth-child(2) { animation-delay: 0.08s; }
+    .section:nth-child(3) { animation-delay: 0.16s; }
+    .section:nth-child(4) { animation-delay: 0.24s; }
+
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .section-icon {
+      width: 30px;
+      height: 30px;
+      background: var(--ink);
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .section-icon svg {
+      width: 14px;
+      height: 14px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1.5;
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--border), transparent);
+    }
+
+    /* ── Field grid ── */
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .field-grid .full { grid-column: 1 / -1; }
+
+    .field { display: flex; flex-direction: column; }
+
+    .field label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sub);
+      margin-bottom: 6px;
+    }
+
+    .field input[type="text"],
+    .field input[type="email"],
+    .field input[type="tel"] {
+      padding: 10px 13px;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      color: var(--text);
+      font-family: 'Jost', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      border-radius: 2px;
+      outline: none;
+      transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+    }
+
+    .field input:focus {
+      border-color: var(--mid);
+      box-shadow: 0 0 0 3px rgba(37,99,168,0.1);
+      background: #fff;
+    }
+
+    .field input:hover:not(:focus) { border-color: #9ab4cc; }
+
+    /* ── Color picker ── */
+    .color-field { grid-column: 1 / -1; }
+
+    .color-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      border-radius: 2px;
+      transition: border-color 0.18s;
+    }
+
+    .color-input-wrap:focus-within {
+      border-color: var(--mid);
+      box-shadow: 0 0 0 3px rgba(37,99,168,0.1);
+    }
+
+    input[type="color"] {
+      width: 36px;
+      height: 28px;
+      border: none;
+      padding: 0;
+      background: none;
+      cursor: pointer;
+      border-radius: 2px;
+    }
+
+    .color-swatch-bar {
+      flex: 1;
+      height: 28px;
+      border-radius: 2px;
+      transition: background 0.2s;
+    }
+
+    .color-hex-label {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--sub);
+      letter-spacing: 0.06em;
+      min-width: 64px;
+      text-align: right;
+    }
+
+    /* ── Tier selector ── */
+    .tier-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .tier-card-opt { position: relative; }
+
+    .tier-card-opt input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .tier-card-opt label {
+      display: flex;
+      flex-direction: column;
+      padding: 16px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 2px;
+      cursor: pointer;
+      background: var(--white);
+      transition: all 0.15s;
+      text-transform: none;
+      letter-spacing: 0;
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--sub);
+    }
+
+    .tier-card-opt label .tc-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .tier-card-opt label .tc-tag {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sub);
+      margin-bottom: 10px;
+    }
+
+    .tier-card-opt label .tc-desc {
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--sub);
+      line-height: 1.5;
+    }
+
+    .tier-card-opt label:hover {
+      border-color: #9ab4cc;
+    }
+
+    .tier-card-opt input:checked + label {
+      border-color: var(--mid);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(37,99,168,0.1), inset 0 0 0 1px var(--mid);
+    }
+
+    .tier-card-opt input:checked + label .tc-name { color: var(--mid); }
+    .tier-card-opt input:checked + label .tc-tag { color: var(--mid); }
+
+    .tier-check {
+      width: 16px;
+      height: 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 50%;
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .tier-card-opt input:checked + label .tier-check {
+      border-color: var(--mid);
+      background: var(--mid);
+    }
+
+    .tier-card-opt input:checked + label .tier-check::after {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: white;
+    }
+
+    /* ── Submit ── */
+    .submit-wrap {
+      margin-top: 8px;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+      animation: riseIn 0.5s 0.32s ease both;
+    }
+
+    .submit-note {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--sub);
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 15px 28px;
+      background: var(--ink);
+      color: var(--white);
+      border: none;
+      border-radius: 2px;
+      font-family: 'Jost', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.25s, transform 0.1s, box-shadow 0.25s;
+    }
+
+    .submit-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(201,168,76,0.15), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.5s ease;
+    }
+
+    .submit-btn:hover {
+      background: var(--deep);
+      box-shadow: 0 8px 28px rgba(13,27,42,0.25);
+      transform: translateY(-1px);
+    }
+
+    .submit-btn:hover::before { transform: translateX(100%); }
+    .submit-btn:active { transform: translateY(0); }
+    .submit-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+    .status-msg {
+      margin-top: 14px;
+      padding: 12px 16px;
+      border-radius: 2px;
+      font-size: 13px;
+      font-weight: 400;
+      display: none;
+    }
+
+    .status-msg.show { display: block; }
+
+    .status-msg.success {
+      background: #eaf6ef;
+      border: 1px solid #a7d7b8;
+      color: #1a5c35;
+    }
+
+    .status-msg.error {
+      background: #fdf2f2;
+      border: 1px solid #f0b8b8;
+      color: #7a1f1f;
+    }
+
+    .status-msg.sending {
+      background: rgba(37,99,168,0.07);
+      border: 1px solid rgba(37,99,168,0.2);
+      color: var(--mid);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 860px) {
+      body { flex-direction: column; }
+      .left-panel {
+        width: 100%;
+        height: auto;
+        position: static;
+        padding: 40px 32px;
+      }
+      .tier-list { display: none; }
+      .right-panel { padding: 40px 24px; }
+      .field-grid { grid-template-columns: 1fr; }
+      .field-grid .full { grid-column: 1; }
+      .tier-cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Left brand panel -->
+  <aside class="left-panel">
+    <div class="panel-top">
+      <div class="logo-mark">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <div class="logo-wordmark">
+          <span class="logo-name">Company</span>
+          <span class="logo-sub">Financial Stewardship</span>
+        </div>
+      </div>
+
+      <h2 class="panel-headline">
+        Accounting built on<br><em>trust &amp; integrity.</em>
+      </h2>
+
+      <p class="panel-body">
+        System simplifies accounting with tiered involvement levels — delivering the right processes, controls, and expert oversight based on your needs. You only pay for the support you actually require.
+      </p>
+
+      <div class="tier-list">
+        <div class="tier-item">
+          <div class="tier-dot"></div>
+          <div class="tier-info">
+            <div class="tier-name">Lite</div>
+            <div class="tier-desc">Essential controls &amp; compliance for lean operations.</div>
+          </div>
+        </div>
+        <div class="tier-item">
+          <div class="tier-dot"></div>
+          <div class="tier-info">
+            <div class="tier-name">Pro</div>
+            <div class="tier-desc">Full oversight with dedicated expert involvement.</div>
+          </div>
+        </div>
+        <div class="tier-item">
+          <div class="tier-dot"></div>
+          <div class="tier-info">
+            <div class="tier-name">Enterprise</div>
+            <div class="tier-desc">Custom processes, controls, and CFO-level stewardship.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-bottom">
+      <p>© 2025 Company. All rights reserved.</p>
+    </div>
+  </aside>
+
+  <!-- Right form panel -->
+  <main class="right-panel">
+    <div class="form-container">
+
+      <div class="form-heading">
+        <div class="step-tag">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          Client Onboarding
+        </div>
+        <h2>Tell us about your<br>company &amp; representative.</h2>
+        <p>This information helps us configure your System account and assign the right accounting oversight for your organisation.</p>
+      </div>
+
+      <div id="stewrdForm">
+
+        <!-- Representative -->
+        <div class="section">
+          <div class="section-header">
+            <div class="section-icon">
+              <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <span class="section-title">Representative</span>
+            <div class="section-line"></div>
+          </div>
+
+          <div class="field-grid">
+            <div class="field full">
+              <label>Full Name</label>
+              <input type="text" name="rep_name" placeholder="e.g. Maria Santos" required>
+            </div>
+            <div class="field">
+              <label>Mobile Number</label>
+              <input type="tel" name="rep_mobile" placeholder="+63 9XX XXX XXXX" required>
+            </div>
+            <div class="field">
+              <label>Email Address</label>
+              <input type="email" name="rep_email" placeholder="maria@company.com" required>
+            </div>
+            <div class="field full">
+              <label>Position / Title</label>
+              <input type="text" name="rep_position" placeholder="e.g. Finance Manager" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- Company -->
+        <div class="section">
+          <div class="section-header">
+            <div class="section-icon">
+              <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+            </div>
+            <span class="section-title">Company</span>
+            <div class="section-line"></div>
+          </div>
+
+          <div class="field-grid">
+            <div class="field full">
+              <label>Company Name</label>
+              <input type="text" name="company_name" placeholder="e.g. Acme Corp" required>
+            </div>
+            <div class="field full">
+              <label>Registered Address</label>
+              <input type="text" name="company_address" placeholder="e.g. BGC, Taguig City, Metro Manila" required>
+            </div>
+            <div class="field">
+              <label>Tax Identification No.</label>
+              <input type="text" name="company_tin" placeholder="000-000-000-000" required>
+            </div>
+            <div class="field">
+              <label>Logo Filename</label>
+              <input type="text" name="company_logo" placeholder="logo.png" required>
+            </div>
+            <div class="field color-field">
+              <label>Brand Colour</label>
+              <div class="color-input-wrap">
+                <input type="color" name="company_color" id="colorPicker" value="#1b3a5c">
+                <div class="color-swatch-bar" id="colorSwatch" style="background:#1b3a5c;"></div>
+                <span class="color-hex-label" id="colorHex">#1B3A5C</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tier -->
+        <div class="section">
+          <div class="section-header">
+            <div class="section-icon">
+              <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <span class="section-title">Involvement Tier</span>
+            <div class="section-line"></div>
+          </div>
+
+          <div class="tier-cards">
+            <div class="tier-card-opt">
+              <input type="radio" name="selected_tier" id="tier-lite" value="Lite">
+              <label for="tier-lite">
+                <span class="tc-name">Lite</span>
+                <span class="tc-tag">Starter</span>
+                <span class="tc-desc">Core processes &amp; compliance controls for lean teams.</span>
+                <div class="tier-check"></div>
+              </label>
+            </div>
+            <div class="tier-card-opt">
+              <input type="radio" name="selected_tier" id="tier-pro" value="Pro" checked>
+              <label for="tier-pro">
+                <span class="tc-name">Pro</span>
+                <span class="tc-tag">Most Popular</span>
+                <span class="tc-desc">Full oversight with dedicated expert involvement.</span>
+                <div class="tier-check"></div>
+              </label>
+            </div>
+            <div class="tier-card-opt">
+              <input type="radio" name="selected_tier" id="tier-enterprise" value="Enterprise">
+              <label for="tier-enterprise">
+                <span class="tc-name">Enterprise</span>
+                <span class="tc-tag">Full Access</span>
+                <span class="tc-desc">Custom controls and CFO-level financial stewardship.</span>
+                <div class="tier-check"></div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="submit-wrap">
+          <p class="submit-note">By submitting, you agree to allow the system to configure your account and assign the appropriate level of accounting oversight. All data is handled with full confidentiality.</p>
+          <button class="submit-btn" id="submitBtn" type="button" onclick="submitForm()">
+            Begin Onboarding →
+          </button>
+          <div class="status-msg" id="statusMsg"></div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const webhookUrl = "https://primary-production-a810.up.railway.app/webhook-test/f969c31b-cc34-423c-b93e-858d7e768c42";
+
+    // Colour picker sync
+    const picker = document.getElementById('colorPicker');
+    const swatch = document.getElementById('colorSwatch');
+    const hexLabel = document.getElementById('colorHex');
+
+    picker.addEventListener('input', () => {
+      swatch.style.background = picker.value;
+      hexLabel.textContent = picker.value.toUpperCase();
+    });
+
+    async function submitForm() {
+      const form = document.getElementById('stewrdForm');
+      const btn = document.getElementById('submitBtn');
+      const msg = document.getElementById('statusMsg');
+
+      // Collect data
+      const data = {};
+      form.querySelectorAll('[name]').forEach(el => {
+        if (el.type === 'radio') {
+          if (el.checked) data[el.name] = el.value;
+        } else {
+          data[el.name] = el.value;
+        }
+      });
+
+      // Validate required text fields
+      const required = ['rep_name','rep_mobile','rep_email','rep_position','company_name','company_address','company_tin','company_logo'];
+      for (const key of required) {
+        if (!data[key] || !data[key].trim()) {
+          showMsg('Please fill in all required fields before submitting.', 'error');
+          return;
+        }
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Submitting…';
+      showMsg('Sending your details to System…', 'sending');
+
+      try {
+        const res = await fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        if (res.ok) {
+          showMsg('✓ Onboarding submitted successfully. Our team will be in touch shortly.', 'success');
+          btn.textContent = 'Submitted';
+        } else {
+          showMsg('Submission failed. Please try again or contact support.', 'error');
+          btn.disabled = false;
+          btn.textContent = 'Begin Onboarding →';
+        }
+      } catch (err) {
+        showMsg('Network error. Please check your connection and try again.', 'error');
+        btn.disabled = false;
+        btn.textContent = 'Begin Onboarding →';
+      }
+    }
+
+    function showMsg(text, type) {
+      const el = document.getElementById('statusMsg');
+      el.textContent = text;
+      el.className = 'status-msg show ' + type;
+    }
+  </script>
+</body>
+</html>
